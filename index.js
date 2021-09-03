@@ -91,11 +91,22 @@ app.init = async () => {
     console.log(`Jono ivertinimas yra ${rateAverage} zvaigzdutes.`);
 
     //Isspausdinti, kokia yra vidutine kelioniu kaina_
-    sql = 'SELECT * FROM `trips`';
+    /*sql = 'SELECT * FROM `trips`';
     [rows] = await connection.execute(sql);
     let totalPrice = 0;
     for (const row of rows) {
         totalPrice += parseInt(row.price);
+    }
+    const averagePrice = totalPrice / totalDistance;
+    console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
+*/
+    //ARBA
+    sql = 'SELECT `price` FROM `trips`';
+    [rows] = await connection.execute(sql);
+    //console.log(rows);
+    let totalPrice = 0;
+    for (let i = 0; i < rows.length; i++) {
+        totalPrice += +rows[i].price;  //stringa paverciam skaiciais
     }
     const averagePrice = totalPrice / totalDistance;
     console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
