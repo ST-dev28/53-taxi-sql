@@ -45,13 +45,23 @@ app.init = async () => {
     console.log(`Taksistais dirba: ${driversList.join(', ')}.`);
 
     //Isspausdinti, koki atstuma nuvaziavo visu kelioniu metu
-    sql = 'SELECT * FROM `trips`';
+    /*sql = 'SELECT * FROM `trips`';
     [rows] = await connection.execute(sql);
     let totalDistance = 0;
     for (const row of rows) {
         totalDistance += parseInt(row.distance)   //stringa paverciam skaiciais
     }
     console.log(`Visu kelioniu metu nuvaziuota ${totalDistance.toFixed(3)} km.`);
+*/
+    // ARBA
+    sql = 'SELECT `distance` FROM `trips`';
+    [rows] = await connection.execute(sql);
+    //console.log(rows);
+    let totalDistance = 0;
+    for (let i = 0; i < rows.length; i++) {
+        totalDistance += +rows[i].distance;  //stringa paverciam skaiciais
+    }
+    console.log(`Visu kelioniu metu nuvaziuota ${totalDistance} km.`);
 
     //Isspausdinti, koks yra vidutinis Jono ivertinimas
     sql = 'SELECT * FROM `trips`';
