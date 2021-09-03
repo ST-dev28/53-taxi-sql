@@ -20,7 +20,7 @@ app.init = async () => {
     console.log(`Visi taksistai bendrai ivykde ${rows.length} keliones.`);
 
     //Isspausdinti, visu taksistu vardus
-    sql = 'SELECT * FROM `trips`';
+    /*sql = 'SELECT * FROM `trips`';
     [rows] = await connection.execute(sql);
     let driversList = [];
     for (let i = 0; i < rows.length; i++) {
@@ -31,6 +31,18 @@ app.init = async () => {
     const driverPerName = [...filter];
     //console.log(driverPerName);
     console.log(`Taksistais dirba: ${driverPerName.join(', ')}.`);
+*/
+    //ARBA
+    sql = 'SELECT * FROM `trips`';
+    [rows] = await connection.execute(sql);
+    let driversList = [];
+    for (let i = 0; i < rows.length; i++) {
+        const driverName = rows[i].driver;
+        if (!driversList.includes(driverName)) {
+            driversList.push(driverName);
+        }
+    }
+    console.log(`Taksistais dirba: ${driversList.join(', ')}.`);
 
     //Isspausdinti, koki atstuma nuvaziavo visu kelioniu metu
     sql = 'SELECT * FROM `trips`';
