@@ -64,19 +64,30 @@ app.init = async () => {
     console.log(`Visu kelioniu metu nuvaziuota ${totalDistance} km.`);
 
     //Isspausdinti, koks yra vidutinis Jono ivertinimas
-    sql = 'SELECT * FROM `trips`';
+    /*sql = 'SELECT * FROM `trips`';
+     [rows] = await connection.execute(sql);
+     let rate = [];
+     for (const row of rows) {
+         if (row.driver === 'Jonas') {
+             rate.push(row.rating);
+         }
+     }
+     let totalRating = 0;
+     for (const stars of rate) {
+         totalRating += stars;
+     }
+     const rateAverage = totalRating / rate.length;
+     console.log(`Jono ivertinimas yra ${rateAverage} zvaigzdutes.`);
+ */
+    //ARBA
+    sql = 'SELECT `rating` FROM `trips` WHERE `driver` LIKE "Jonas"';
     [rows] = await connection.execute(sql);
-    let rate = [];
-    for (const row of rows) {
-        if (row.driver === 'Jonas') {
-            rate.push(row.rating);
-        }
-    }
+    //console.log(rows);
     let totalRating = 0;
-    for (const stars of rate) {
-        totalRating += stars;
+    for (let i = 0; i < rows.length; i++) {
+        totalRating += +rows[i].rating;
     }
-    const rateAverage = totalRating / rate.length;
+    const rateAverage = totalRating / rows.length;
     console.log(`Jono ivertinimas yra ${rateAverage} zvaigzdutes.`);
 
     //Isspausdinti, kokia yra vidutine kelioniu kaina_
