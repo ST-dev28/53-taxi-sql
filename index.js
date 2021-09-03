@@ -10,8 +10,62 @@ app.init = async () => {
         database: 'taxi',
     });
 
+    //rows yra Array
     let sql = '';
     let rows = [];
+
+    //Isspausdinti, kiek buvo kelioniu
+    sql = 'SELECT * FROM `trips`';
+    [rows] = await connection.execute(sql);
+    console.log(`Visi taksistai bendrai ivykde ${rows.length} keliones.`);
+
+    //Isspausdinti, visu taksistu vardus
+    sql = 'SELECT * FROM `trips`';
+    [rows] = await connection.execute(sql);
+    let driversList = [];
+    for (let i = 0; i < rows.length; i++) {
+        driversList.push(rows[i].driver);
+    }
+    const filter = new Set(driversList);
+    const driverPerName = [...filter];
+    console.log(`Taksistais dirba: ${driverPerName.join(', ')}.`);
+
+    //Isspausdinti, koki atstuma nuvaziavo visu kelioniu metu
+    sql = 'SELECT * FROM `trips`';
+    [rows] = await connection.execute(sql);
+    let totalDistance = 0;
+    for (const row of rows) {
+        totalDistance += parseInt(row.distance)
+    }
+    console.log(`Visu kelioniu metu nuvaziuota ${totalDistance.toFixed(3)} km.`);
+
+    //Isspausdinti, koks yra vidutinis Jono ivertinimas
+    sql = 'SELECT * FROM `trips`';
+    [rows] = await connection.execute(sql);
+    let rate = [];
+    for (const row of rows) {
+        if (row.driver === 'Jonas') {
+            rate.push(row.rating);
+        }
+    }
+    let totalRating = 0;
+    for (const stars of rate) {
+        totalRating += stars;
+    }
+    const rateAverage = totalRating / rate.length;
+    console.log(`Jono ivertinimas yra ${rateAverage} zvaigzdutes.`);
+
+    //Isspausdinti, kokia yra vidutine kelioniu kaina_
+    sql = 'SELECT * FROM `trips`';
+    [rows] = await connection.execute(sql);
+    let totalPrice = 0;
+    for (const row of rows) {
+        totalPrice += parseInt(row.price);
+    }
+    const averagePrice = totalPrice / totalDistance;
+    console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
+
+    console.log('***********************');
 
     sql = 'SELECT trips.id \
     FROM `trips` \
@@ -19,23 +73,11 @@ app.init = async () => {
     [rows] = await connection.execute(sql);
     console.log(rows);
 
-    let tripCount = 0;
-    for (const { id } of rows) {
-        tripCount = id;
-    }
-    console.log(`Visi taksistai bendrai ivykde ${tripCount} keliones`);
-
     sql = 'SELECT trips.distance \
     FROM `trips` \
     WHERE `distance`';
     [rows] = await connection.execute(sql);
     console.log(rows);
-
-    let distanceTotal = 0;
-    for (const { distance } of rows) {
-        distanceTotal = distance;
-    }
-    console.log(`distanceCount ${++distanceTotal} km`);
 
     sql = 'SELECT trips.price \
     FROM `trips` \
@@ -48,13 +90,6 @@ app.init = async () => {
     WHERE `driver`LIKE "%%"';
     [rows] = await connection.execute(sql);
     console.log(rows);
-
-    let driversList = '';
-    for (const { id, driver } of rows) {
-        driversList += driver + ", ";
-        //if () {
-    }
-    console.log(`Taksistais dirba: ${driversList}.`);
 
     sql = 'SELECT trips.passenger \
     FROM `trips` \
