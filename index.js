@@ -25,9 +25,11 @@ app.init = async () => {
     let driversList = [];
     for (let i = 0; i < rows.length; i++) {
         driversList.push(rows[i].driver);
+        //console.log(rows[i].driver);
     }
     const filter = new Set(driversList);
     const driverPerName = [...filter];
+    //console.log(driverPerName);
     console.log(`Taksistais dirba: ${driverPerName.join(', ')}.`);
 
     //Isspausdinti, koki atstuma nuvaziavo visu kelioniu metu
@@ -35,7 +37,7 @@ app.init = async () => {
     [rows] = await connection.execute(sql);
     let totalDistance = 0;
     for (const row of rows) {
-        totalDistance += parseInt(row.distance)
+        totalDistance += parseInt(row.distance)   //stringa paverciam skaiciais
     }
     console.log(`Visu kelioniu metu nuvaziuota ${totalDistance.toFixed(3)} km.`);
 
