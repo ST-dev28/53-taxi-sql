@@ -20,18 +20,18 @@ app.init = async () => {
     console.log(`Visi taksistai bendrai ivykde ${rows.length} keliones.`);
 
     //Isspausdinti, visu taksistu vardus
-    /*sql = 'SELECT * FROM `trips`';
-    [rows] = await connection.execute(sql);
-    let driversList = [];
-    for (let i = 0; i < rows.length; i++) {
-        driversList.push(rows[i].driver);
-        //console.log(rows[i].driver);
-    }
-    const filter = new Set(driversList);
-    const driverPerName = [...filter];
-    //console.log(driverPerName);
-    console.log(`Taksistais dirba: ${driverPerName.join(', ')}.`);
-*/
+    /* sql = 'SELECT * FROM `trips`';
+        [rows] = await connection.execute(sql);
+        let driversList = [];
+        for (let i = 0; i < rows.length; i++) {
+            driversList.push(rows[i].driver);
+            //console.log(rows[i].driver);
+        }
+        const filter = new Set(driversList);
+        const driverPerName = [...filter];
+        //console.log(driverPerName);
+        console.log(`Taksistais dirba: ${driverPerName.join(', ')}.`);
+    */
     //ARBA
     sql = 'SELECT * FROM `trips`';
     [rows] = await connection.execute(sql);
@@ -45,14 +45,14 @@ app.init = async () => {
     console.log(`Taksistais dirba: ${driversList.join(', ')}.`);
 
     //Isspausdinti, koki atstuma nuvaziavo visu kelioniu metu
-    /*sql = 'SELECT * FROM `trips`';
-    [rows] = await connection.execute(sql);
-    let totalDistance = 0;
-    for (const row of rows) {
-        totalDistance += parseInt(row.distance)   //stringa paverciam skaiciais
-    }
-    console.log(`Visu kelioniu metu nuvaziuota ${totalDistance.toFixed(3)} km.`);
-*/
+    /*   sql = 'SELECT * FROM `trips`';
+       [rows] = await connection.execute(sql);
+       let totalDistance = 0;
+       for (const row of rows) {
+           totalDistance += parseInt(row.distance)   //stringa paverciam skaiciais
+       }
+       console.log(`Visu kelioniu metu nuvaziuota ${totalDistance.toFixed(3)} km.`);
+   */
     // ARBA
     sql = 'SELECT `distance` FROM `trips`';
     [rows] = await connection.execute(sql);
@@ -64,21 +64,21 @@ app.init = async () => {
     console.log(`Visu kelioniu metu nuvaziuota ${totalDistance} km.`);
 
     //Isspausdinti, koks yra vidutinis Jono ivertinimas
-    /*sql = 'SELECT * FROM `trips`';
-     [rows] = await connection.execute(sql);
-     let rate = [];
-     for (const row of rows) {
-         if (row.driver === 'Jonas') {
-             rate.push(row.rating);
+    /*   sql = 'SELECT * FROM `trips`';
+         [rows] = await connection.execute(sql);
+         let rate = [];
+         for (const row of rows) {
+             if (row.driver === 'Jonas') {
+                 rate.push(row.rating);
+             }
          }
-     }
-     let totalRating = 0;
-     for (const stars of rate) {
-         totalRating += stars;
-     }
-     const rateAverage = totalRating / rate.length;
-     console.log(`Jono ivertinimas yra ${rateAverage} zvaigzdutes.`);
- */
+         let totalRating = 0;
+         for (const stars of rate) {
+             totalRating += stars;
+         }
+         const rateAverage = totalRating / rate.length;
+         console.log(`Jono ivertinimas yra ${rateAverage} zvaigzdutes.`);
+     */
     //ARBA
     sql = 'SELECT `rating` FROM `trips` WHERE `driver` LIKE "Jonas"';
     [rows] = await connection.execute(sql);
@@ -92,25 +92,25 @@ app.init = async () => {
 
     //Isspausdinti, kokia yra vidutine kelioniu kaina_
     /*sql = 'SELECT * FROM `trips`';
-    [rows] = await connection.execute(sql);
-    let totalPrice = 0;
-    for (const row of rows) {
-        totalPrice += parseInt(row.price);
-    }
-    const averagePrice = totalPrice / totalDistance;
-    console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
-*/
+        [rows] = await connection.execute(sql);
+        let totalPrice = 0;
+        for (const row of rows) {
+            totalPrice += parseInt(row.price);
+        }
+        const averagePrice = totalPrice / totalDistance;
+        console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
+    */
     //ARBA
     /*sql = 'SELECT `price` FROM `trips`';
-    [rows] = await connection.execute(sql);
-    //console.log(rows);
-    let totalPrice = 0;
-    for (let i = 0; i < rows.length; i++) {
-        totalPrice += +rows[i].price;  //stringa paverciam skaiciais
-    }
-    const averagePrice = totalPrice / totalDistance;
-    console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
-*/
+        [rows] = await connection.execute(sql);
+        //console.log(rows);
+        let totalPrice = 0;
+        for (let i = 0; i < rows.length; i++) {
+            totalPrice += +rows[i].price;  //stringa paverciam skaiciais
+        }
+        const averagePrice = totalPrice / totalDistance;
+        console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
+    */
     //ARBA
     sql = 'SELECT `price`, `distance` FROM `trips`';
     [rows] = await connection.execute(sql);
@@ -126,19 +126,19 @@ app.init = async () => {
 
     //ARBA - kitoks atsakymas gaunasi ????? 
     /*sql = 'SELECT `price`, `distance` FROM `trips`';
-    [rows] = await connection.execute(sql);
-    //console.log(rows);
-    let pricePerKm = 0;
-    let totalPrice = 0;
-    let totalDist = 0;
-    for (let i = 0; i < rows.length; i++) {
-        totalDist = +rows[i].distance;
-        totalPrice = +rows[i].price;  //stringa paverciam skaiciais
-        pricePerKm += totalPrice / totalDist;
-    }
-    const averagePrice = pricePerKm / rows.length;
-    console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
-*/
+            [rows] = await connection.execute(sql);
+            //console.log(rows);
+            let pricePerKm = 0;
+            let totalPrice = 0;
+            let totalDist = 0;
+            for (let i = 0; i < rows.length; i++) {
+                totalDist = +rows[i].distance;
+                totalPrice = +rows[i].price;  //stringa paverciam skaiciais
+                pricePerKm += totalPrice / totalDist;
+            }
+            const averagePrice = pricePerKm / rows.length;
+            console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
+    */
     console.log('***********************');
 
     sql = 'SELECT trips.id \
