@@ -139,37 +139,120 @@ app.init = async () => {
             const averagePrice = pricePerKm / rows.length;
             console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
     */
+    console.log('********************************');
+    console.log('------DESTYTOJO SPRENDINIAI------');
+
+    //**1.** Isspausdinti, kiek buvo kelioniu
+    sql = 'SELECT count(id) as kiekis FROM `trips`';
+    [rows] = await connection.execute(sql);
+    const tripCount = rows[0].kiekis;
+    console.log(`Visi taksistai bendrai ivykde ${tripCount} keliones.`);
+
+    // **2.** Isspausdinti, visu taksistu vardus
+    sql = 'SELECT DISTINCT `driver` FROM `trips`';
+    [rows] = await connection.execute(sql);
+    const uniqueDrivers = rows.map(obj => obj.driver); //map eina kaip ciklas per duota sarasa ir gali atlikti modifikacijas irase
+    console.log(`Taksistais dirba: ${uniqueDrivers.join(', ')}.`);
+
+    // ARBA
+    /*   sql = 'SELECT `driver` FROM `trips`';
+       [rows] = await connection.execute(sql);
+
+       const uniqueDrivers = [];
+       for (const driver of rows) {
+           if (!uniqueDrivers.includes(driver.driver)) {
+               uniqueDrivers.push(driver.driver);
+           }
+       }
+       console.log(uniqueDrivers);
+
+    //ARBA
+    sql = 'SELECT DISTINCT `driver` FROM `trips`';
+    [rows] = await connection.execute(sql);
+    const uniqueDrivers = rows.map(obj => obj.driver);
+    console.log(uniqueDrivers);
+
+*/
+    //**3.** Isspausdinti, koki atstuma nuvaziavo visu kelioniu metu
+    sql = 'SELECT sum(distance) as totalDistance FROM `trips`';
+    [rows] = await connection.execute(sql);
+    console.log(`Visu kelioniu metu nuvaziuota ${rows[0].totalDistance} km.`);
+
+    //ARBA
+    /*    sql = 'SELECT `distance` FROM `trips`';
+        [rows] = await connection.execute(sql);
+        const distances = rows.map(obj => +obj.distance); // konvertuojam i skaicius su +
+        let distanceTotal = 0;
+        for (const distance of distances) {
+            distanceTotal += distance;
+            // const distanceTotal = rows.reduce((total, obj) => total + +obj.distance, 0);  //ARBA
+        }
+        console.log(`Visu kelioniu metu nuvaziuota ${distanceTotal} km.`);
+    */
+
+    //**4.** Isspausdinti, koks yra vidutinis Jono ivertinimas
+    sql = 'SELECT avg(rating) as averageRating FROM `trips`\
+    WHERE `driver` LIKE "Jonas"';
+    [rows] = await connection.execute(sql);
+    console.log(`Jono ivertinimas yra ${+rows[0].averageRating} zvaigzdutes.`);
+
+    // ARBA ilgas variantas
+    /*    sql = 'SELECT `rating` FROM `trips`\
+                WHERE `driver` LIKE "Jonas"';
+        [rows] = await connection.execute(sql);
+        const ratings = rows.map(obj => obj.rating);
+        let ratingTotal = 0;
+        for (const rating of ratings) {
+            ratingTotal += rating;
+        }
+        const ratingAverage = ratingTotal / ratings.length;
+        console.log(`Jono ivertinimas yra ${ratingAverage} zvaigzdutes.`);
+    */
+    //**5.** Isspausdinti, kokia yra vidutine kelioniu kaina
+    sql = 'SELECT avg(`price` / `distance`) as eurPerKm FROM `trips`';
+    [rows] = await connection.execute(sql);
+    console.log(`Vidutine kelioniu kaina yra ${(+rows[0].eurPerKm).toFixed(2)} EUR/km.`);
+
+    // ARBA ilgesnis variantas
+    /*    sql = 'SELECT `distance`, `price` FROM `trips`';
+        [rows] = await connection.execute(sql);
+        const priceDistance = rows.map(obj => +obj.price / +obj.distance);
+        const priceTotal = priceDistance.reduce((t, p) => t + p, 0);
+        const eurPerKm = priceTotal / rows.length;
+        console.log(`Vidutine kelioniu kaina yra ${eurPerKm.toFixed(2)} EUR/km.`);
+    */
     console.log('***********************');
-
-    sql = 'SELECT trips.id \
-    FROM `trips` \
-    WHERE `id`';
-    [rows] = await connection.execute(sql);
-    console.log(rows);
-
-    sql = 'SELECT trips.distance \
-    FROM `trips` \
-    WHERE `distance`';
-    [rows] = await connection.execute(sql);
-    console.log(rows);
-
-    sql = 'SELECT trips.price \
-    FROM `trips` \
-    WHERE `price`';
-    [rows] = await connection.execute(sql);
-    console.log(rows);
-
-    sql = 'SELECT trips.driver \
-    FROM `trips` \
-    WHERE `driver`LIKE "%%"';
-    [rows] = await connection.execute(sql);
-    console.log(rows);
-
-    sql = 'SELECT trips.passenger \
-    FROM `trips` \
-    WHERE `passenger`LIKE "%%"';
-    [rows] = await connection.execute(sql);
-    console.log(rows);
+    /*
+        sql = 'SELECT trips.id \
+        FROM `trips` \
+        WHERE `id`';
+        [rows] = await connection.execute(sql);
+        console.log(rows);
+    
+        sql = 'SELECT trips.distance \
+        FROM `trips` \
+        WHERE `distance`';
+        [rows] = await connection.execute(sql);
+        console.log(rows);
+    
+        sql = 'SELECT trips.price \
+        FROM `trips` \
+        WHERE `price`';
+        [rows] = await connection.execute(sql);
+        console.log(rows);
+    
+        sql = 'SELECT trips.driver \
+        FROM `trips` \
+        WHERE `driver`LIKE "%%"';
+        [rows] = await connection.execute(sql);
+        console.log(rows);
+    
+        sql = 'SELECT trips.passenger \
+        FROM `trips` \
+        WHERE `passenger`LIKE "%%"';
+        [rows] = await connection.execute(sql);
+        console.log(rows);
+    */
 }
 
 app.init();
