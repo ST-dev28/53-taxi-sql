@@ -101,7 +101,7 @@ app.init = async () => {
     console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
 */
     //ARBA
-    sql = 'SELECT `price` FROM `trips`';
+    /*sql = 'SELECT `price` FROM `trips`';
     [rows] = await connection.execute(sql);
     //console.log(rows);
     let totalPrice = 0;
@@ -109,6 +109,19 @@ app.init = async () => {
         totalPrice += +rows[i].price;  //stringa paverciam skaiciais
     }
     const averagePrice = totalPrice / totalDistance;
+    console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
+*/
+    //ARBA
+    sql = 'SELECT `price`, `distance` FROM `trips`';
+    [rows] = await connection.execute(sql);
+    //console.log(rows);
+    let totalPrice = 0;
+    let totalDist = 0;
+    for (let i = 0; i < rows.length; i++) {
+        totalDist += +rows[i].distance;
+        totalPrice += +rows[i].price;  //stringa paverciam skaiciais
+    }
+    const averagePrice = totalPrice / totalDist;
     console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
 
     console.log('***********************');
