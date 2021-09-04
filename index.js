@@ -124,6 +124,21 @@ app.init = async () => {
     const averagePrice = totalPrice / totalDist;
     console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
 
+    //ARBA - kitoks atsakymas gaunasi ????? 
+    /*sql = 'SELECT `price`, `distance` FROM `trips`';
+    [rows] = await connection.execute(sql);
+    //console.log(rows);
+    let pricePerKm = 0;
+    let totalPrice = 0;
+    let totalDist = 0;
+    for (let i = 0; i < rows.length; i++) {
+        totalDist = +rows[i].distance;
+        totalPrice = +rows[i].price;  //stringa paverciam skaiciais
+        pricePerKm += totalPrice / totalDist;
+    }
+    const averagePrice = pricePerKm / rows.length;
+    console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
+*/
     console.log('***********************');
 
     sql = 'SELECT trips.id \
