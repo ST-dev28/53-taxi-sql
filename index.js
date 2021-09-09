@@ -140,6 +140,7 @@ app.init = async () => {
             console.log(`Vidutine kelioniu kaina yra ${averagePrice.toFixed(2)} EUR / km.`);
     */
     console.log('********************************');
+
     console.log('------DESTYTOJO SPRENDINIAI------');
 
     //**1.** Isspausdinti, kiek buvo kelioniu
